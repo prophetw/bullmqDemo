@@ -7,10 +7,15 @@ const myQueue = new Queue('test', {
 
 // 添加任务
 (async () => {
-  const job = await myQueue.add('convert', {
-    filename: 'user_upload.docx',
-    jobId: 'xxx',
-  });
-  console.log('任务已添加:', job.id);
-  await myQueue.close();
+  try {
+    const job = await myQueue.add('convert', {
+      filename: 'user_upload.docx',
+      jobId: 'xxx',
+    });
+    console.log('任务已添加:', job.id);
+  } catch (error) {
+    console.error('添加任务失败:', error.message);
+  } finally {
+    await myQueue.close();
+  }
 })();
